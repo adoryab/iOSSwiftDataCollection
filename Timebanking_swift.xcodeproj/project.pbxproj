@@ -14,6 +14,10 @@
 		E0D9CD3F1B0FA17E00D7CD5F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0D9CD3E1B0FA17E00D7CD5F /* Images.xcassets */; };
 		E0D9CD421B0FA17E00D7CD5F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0D9CD401B0FA17E00D7CD5F /* LaunchScreen.xib */; };
 		E0D9CD4E1B0FA17E00D7CD5F /* Timebanking_swiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D9CD4D1B0FA17E00D7CD5F /* Timebanking_swiftTests.swift */; };
+		E0D9CD581B0FA18B00D7CD5F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D9CD571B0FA18B00D7CD5F /* CoreLocation.framework */; };
+		E0D9CD5A1B0FA19100D7CD5F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D9CD591B0FA19100D7CD5F /* CoreMotion.framework */; };
+		E0D9CD5C1B0FA19600D7CD5F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D9CD5B1B0FA19600D7CD5F /* CoreData.framework */; };
+		E0D9CDC61B0FB44D00D7CD5F /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D9CDC51B0FB44D00D7CD5F /* Activity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +42,10 @@
 		E0D9CD471B0FA17E00D7CD5F /* Timebanking_swiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Timebanking_swiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0D9CD4C1B0FA17E00D7CD5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E0D9CD4D1B0FA17E00D7CD5F /* Timebanking_swiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timebanking_swiftTests.swift; sourceTree = "<group>"; };
+		E0D9CD571B0FA18B00D7CD5F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		E0D9CD591B0FA19100D7CD5F /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		E0D9CD5B1B0FA19600D7CD5F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		E0D9CDC51B0FB44D00D7CD5F /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +53,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0D9CD5C1B0FA19600D7CD5F /* CoreData.framework in Frameworks */,
+				E0D9CD5A1B0FA19100D7CD5F /* CoreMotion.framework in Frameworks */,
+				E0D9CD581B0FA18B00D7CD5F /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +72,9 @@
 		E0D9CD261B0FA17E00D7CD5F = {
 			isa = PBXGroup;
 			children = (
+				E0D9CD5B1B0FA19600D7CD5F /* CoreData.framework */,
+				E0D9CD591B0FA19100D7CD5F /* CoreMotion.framework */,
+				E0D9CD571B0FA18B00D7CD5F /* CoreLocation.framework */,
 				E0D9CD311B0FA17E00D7CD5F /* Timebanking_swift */,
 				E0D9CD4A1B0FA17E00D7CD5F /* Timebanking_swiftTests */,
 				E0D9CD301B0FA17E00D7CD5F /* Products */,
@@ -79,6 +93,7 @@
 		E0D9CD311B0FA17E00D7CD5F /* Timebanking_swift */ = {
 			isa = PBXGroup;
 			children = (
+				E0D9CDC51B0FB44D00D7CD5F /* Activity.swift */,
 				E0D9CD341B0FA17E00D7CD5F /* AppDelegate.swift */,
 				E0D9CD391B0FA17E00D7CD5F /* ViewController.swift */,
 				E0D9CD3B1B0FA17E00D7CD5F /* Main.storyboard */,
@@ -217,6 +232,7 @@
 			files = (
 				E0D9CD3A1B0FA17E00D7CD5F /* ViewController.swift in Sources */,
 				E0D9CD351B0FA17E00D7CD5F /* AppDelegate.swift in Sources */,
+				E0D9CDC61B0FB44D00D7CD5F /* Activity.swift in Sources */,
 				E0D9CD381B0FA17E00D7CD5F /* Timebanking_swift.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

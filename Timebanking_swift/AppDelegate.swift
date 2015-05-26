@@ -1,49 +1,249 @@
 //
 //  AppDelegate.swift
-//  Timebanking_swift
+//  Timebanking-iOS-swift
 //
-//  Created by Ivy Chung on 5/22/15.
+//  Created by Ivy Chung on 5/15/15.
 //  Copyright (c) 2015 Patrick Chang. All rights reserved.
 //
 
 import UIKit
+import CoreMotion
 import CoreData
+import CoreLocation
 
+
+//create the location DB class
+@objc(Location) class Location:NSManagedObject {
+    @NSManaged var longitude:Double
+    @NSManaged var latitude:Double
+    @NSManaged var timestamp: NSString
+}
+
+
+extension NSDate{
+    class func now() -> NSDate{
+        return NSDate()
+    }
+    class func tenSecondsAgo() -> NSDate{
+        return NSDate(timeIntervalSinceNow: -(10))
+    }
+}
+
+//misc functions
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
+    var counter = 0
+    lazy var locationFrequency: NSTimeInterval = 2
+    var updateTimerInitializer: NSTimer?
+    var updateTimer: NSTimer?
     var window: UIWindow?
-
-
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
-        return true
+    let activityManager: CMMotionActivityManager = CMMotionActivityManager()
+    let dataProcessingQueue = NSOperationQueue()
+    lazy var pedometer = CMPedometer()
+    var locationManager: CLLocationManager = CLLocationManager()
+    var lastThreeActivities = [String] (count:3, repeatedValue: "Unknown")
+    let quickUpdateFrequency :NSTimeInterval = 2
+    let slowUpdateFrequency :NSTimeInterval = 10
+    
+    func application(application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions:
+        [NSObject : AnyObject]?) -> Bool {
+            return true
     }
+    
+    
+    func applicationDidBecomeActive(application: UIApplication) {
+        
+        locationManager.requestAlwaysAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        
+        //distance updater
+        updateTimerInitializer = NSTimer.scheduledTimerWithTimeInterval(5,
+            target: self,
+            selector: "updater:",
+            userInfo: nil,
+            repeats: false)
+    }
+    
+    
+    func printLastTenUpdates() {
+        /*
+        let fetchRequest = NSFetchRequest(entityName: "Activity")
+        var requestError: NSError?
+        let activities = managedObjectContext!.executeFetchRequest(fetchRequest,error: &requestError) as! [Activity!]
+        if activities.count > 0 {
+            for activity in activities {
+                println("The confidence level is " + activity.confidence)
+                println("The activity type is " + activity.activityType)
+                println("The activity list is " + activity.activityList)
+                println(activity.timestamp)
+                println("\n")
+            }
+        }
+        println("-------------------------------------------------------------")
+        */
+        let appDelegate =
+        UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext!
+        //2
+        let fetchRequest = NSFetchRequest(entityName:"Activity")
+        //3
+        var error: NSError?
+        let fetchedResults =
+        managedContext.executeFetchRequest(fetchRequest,
+            error: &error) as? [NSManagedObject]
+        println(fetchedResults)
+        println("-------------------------------------------------")
+    }
+    //distance && activity
+    func updater(timer:NSTimer) {
+        var shortTimer :Bool = Bool()
+        let drivingSpeed :NSNumber = 67      //15 mph
+        var activityString = "| "
+        //let activityManager: CMMotionActivityManager = CMMotionActivityManager()
+        //let dataProcessingQueue = NSOperationQueue()
+        
+        //location tracking
+        locationManager.startUpdatingLocation()
+        //println("Your current latitude is " , locationManager.location.coordinate.latitude)
+        //println("Your current longitude is ", locationManager.location.coordinate.longitude)
+        //println("The current time is ", locationManager.location.timestamp)
+        locationManager.stopUpdatingLocation()
+        
+        //activity tracking
+        if CMPedometer.isDistanceAvailable(){
+            pedometer.queryPedometerDataFromDate(NSDate.tenSecondsAgo(),
+                toDate: NSDate.now(),
+                withHandler: {(data: CMPedometerData!, error: NSError!) in
+                    //println("Distance travelled since ten seconds ago" +
+                    //    "= \(data.distance) meters")
+                    var distanceTravelled = data.distance as NSNumber
+                    
+                    self.activityManager.startActivityUpdatesToQueue(self.dataProcessingQueue) {
+                        data in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.lastThreeActivities[2] = self.lastThreeActivities[1]
+                            self.lastThreeActivities[1] = self.lastThreeActivities[0]
+                            if data.running {
+                                //println("the current activity is running")
+                                self.lastThreeActivities[0] = "Running"
+                                activityString += " running |"
+                            }; if data.cycling {
+                                //println("the current activity is cycling")
+                                self.lastThreeActivities[0] = "Cycling"
+                                activityString += " cycling |"
+                            };if data.walking {
+                                //println("the current activity is walking")
+                                self.lastThreeActivities[0] = "Walking"
+                                activityString += " walking |"
+                            }; if data.automotive  && distanceTravelled.compare(drivingSpeed) == NSComparisonResult.OrderedDescending {
+                                //println("the current activity is automotive")
+                                self.lastThreeActivities[0] = "Automotive"
+                                activityString += " automotive |"
+                            }; if data.stationary{
+                                //println("the current activity is stationary")
+                                self.lastThreeActivities[0] = "Stationary"
+                                activityString += " stationary |"
+                            }; if data.unknown {
+                                //println("the current activity is unknown")
+                                self.lastThreeActivities[0] = "Unknown"
+                                activityString += " unknown |"
+                            }
+                            let activity = NSEntityDescription.insertNewObjectForEntityForName("Activity", inManagedObjectContext: self.managedObjectContext!) as! Activity
+                            self.activityManager.stopActivityUpdates()
+                            activity.timestamp = NSDate()
+                            activity.activityType = self.lastThreeActivities[0]
+                            activity.activityList = activityString
+                            if data.confidence == CMMotionActivityConfidence.Low {
+                                activity.confidence = "low"
+                            } else if data.confidence == CMMotionActivityConfidence.Medium {
+                                activity.confidence = "medium"
+                            } else if data.confidence == CMMotionActivityConfidence.High {
+                                activity.confidence = "high"
+                            } else {
+                                activity.confidence = "There was a problem getting confidence"
+                            }
 
+                            //println( self.lastThreeActivities)
+                            if self.lastThreeActivities[0] != "Stationary" {
+                                //println("the most recent activity is different")
+                                shortTimer = true
+                                
+                            } else if self.lastThreeActivities[1] != "Stationary" {
+                                shortTimer = true
+                                //println("the second most recent activity is different")
+                            } else if self.lastThreeActivities[2] != "Stationary" {
+                                shortTimer = true
+                                //println("the third most recent activity is different")
+                            } else {
+                                shortTimer = false
+                            }
+                            //println(shortTimer)
+                            self.counter += 1
+                            if self.counter%5 == 0 {
+                                self.printLastTenUpdates()
+                            }
+                            self.updateWithVaryingFrequency(shortTimer)
+                            //println(self.locationFrequency)
+                            //println("\n")
+                            
+                        }
+                    }
+
+                    
+            })
+        } else {
+            println("A required feature is unavailable. This app will not work")
+        }
+    }
+    
+    
+    func updateWithVaryingFrequency(boolVar: Bool) {
+        //println(boolVar)
+        if boolVar == true {
+            updateTimer = NSTimer.scheduledTimerWithTimeInterval(self.quickUpdateFrequency,
+                target: self,
+                selector: "updater:",
+                userInfo: nil,
+                repeats: false)
+        } else {
+            updateTimer = NSTimer.scheduledTimerWithTimeInterval(self.slowUpdateFrequency,
+                target: self,
+                selector: "updater:",
+                userInfo: nil,
+                repeats: false)
+        }
+        
+    }
+    
     func applicationWillResignActive(application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+        pedometer.stopPedometerUpdates()
     }
-
+    
+    
+    
+    
+    /*
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    // Override point for customization after application launch.
+    return true
+    }
+    */
+    
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
-
+    
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
-
-    func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
-
+    
+    
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        // Saves changes in the application's managed object context before the application terminates.
-        self.saveContext()
     }
-
     // MARK: - Core Data stack
 
     lazy var applicationDocumentsDirectory: NSURL = {
