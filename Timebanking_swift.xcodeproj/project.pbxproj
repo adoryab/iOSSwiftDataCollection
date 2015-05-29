@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E04E4ACA1B14F8F4009A3040 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04E4AC91B14F8F4009A3040 /* Location.swift */; };
 		E0D9CD351B0FA17E00D7CD5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D9CD341B0FA17E00D7CD5F /* AppDelegate.swift */; };
 		E0D9CD381B0FA17E00D7CD5F /* Timebanking_swift.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E0D9CD361B0FA17E00D7CD5F /* Timebanking_swift.xcdatamodeld */; };
 		E0D9CD3A1B0FA17E00D7CD5F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D9CD391B0FA17E00D7CD5F /* ViewController.swift */; };
@@ -31,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E04E4AC91B14F8F4009A3040 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		E0D9CD2F1B0FA17E00D7CD5F /* Timebanking_swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Timebanking_swift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0D9CD331B0FA17E00D7CD5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E0D9CD341B0FA17E00D7CD5F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 		E0D9CD311B0FA17E00D7CD5F /* Timebanking_swift */ = {
 			isa = PBXGroup;
 			children = (
+				E04E4AC91B14F8F4009A3040 /* Location.swift */,
 				E0D9CDC51B0FB44D00D7CD5F /* Activity.swift */,
 				E0D9CD341B0FA17E00D7CD5F /* AppDelegate.swift */,
 				E0D9CD391B0FA17E00D7CD5F /* ViewController.swift */,
@@ -179,6 +182,11 @@
 				TargetAttributes = {
 					E0D9CD2E1B0FA17E00D7CD5F = {
 						CreatedOnToolsVersion = 6.3;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					E0D9CD461B0FA17E00D7CD5F = {
 						CreatedOnToolsVersion = 6.3;
@@ -232,6 +240,7 @@
 			files = (
 				E0D9CD3A1B0FA17E00D7CD5F /* ViewController.swift in Sources */,
 				E0D9CD351B0FA17E00D7CD5F /* AppDelegate.swift in Sources */,
+				E04E4ACA1B14F8F4009A3040 /* Location.swift in Sources */,
 				E0D9CDC61B0FB44D00D7CD5F /* Activity.swift in Sources */,
 				E0D9CD381B0FA17E00D7CD5F /* Timebanking_swift.xcdatamodeld in Sources */,
 			);
@@ -429,6 +438,7 @@
 				E0D9CD531B0FA17E00D7CD5F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E0D9CD541B0FA17E00D7CD5F /* Build configuration list for PBXNativeTarget "Timebanking_swiftTests" */ = {
 			isa = XCConfigurationList;
@@ -437,6 +447,7 @@
 				E0D9CD561B0FA17E00D7CD5F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

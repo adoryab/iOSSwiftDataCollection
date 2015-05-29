@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Timebanking_swift/AppDelegate.swift"
-            timestampString = "454020657.321176"
+            timestampString = "454538985.607637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
             landmarkName = "updater(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,12 +26,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Timebanking_swift/AppDelegate.swift"
-            timestampString = "454020528.955911"
+            timestampString = "454538985.607637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
             landmarkName = "printLastTenUpdates()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Timebanking_swift/AppDelegate.swift"
+            timestampString = "454539451.566043"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "getData()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

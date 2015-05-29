@@ -6,7 +6,13 @@
         <attribute name="confidence" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
+    <entity name="Location" representedClassName="Timebanking_swift.Location" syncable="YES">
+        <attribute name="latitude" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
     <elements>
         <element name="Activity" positionX="-45" positionY="0" width="128" height="105"/>
+        <element name="Location" positionX="-45" positionY="27" width="128" height="90"/>
     </elements>
 </model>

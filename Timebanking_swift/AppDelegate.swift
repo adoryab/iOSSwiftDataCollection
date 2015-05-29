@@ -12,14 +12,6 @@ import CoreData
 import CoreLocation
 
 
-//create the location DB class
-@objc(Location) class Location:NSManagedObject {
-    @NSManaged var longitude:Double
-    @NSManaged var latitude:Double
-    @NSManaged var timestamp: NSString
-}
-
-
 extension NSDate{
     class func now() -> NSDate{
         return NSDate()
@@ -27,13 +19,19 @@ extension NSDate{
     class func tenSecondsAgo() -> NSDate{
         return NSDate(timeIntervalSinceNow: -(10))
     }
+    class func oneDayAgo() -> NSDate {
+        return NSDate(timeIntervalSinceNow: -60*60*24)
+    }
 }
 
 //misc functions
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
+    //used in predicating batch updates
+    var lastUpdate = NSDate()
     var counter = 0
+    
     lazy var locationFrequency: NSTimeInterval = 2
     var updateTimerInitializer: NSTimer?
     var updateTimer: NSTimer?
@@ -45,12 +43,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var lastThreeActivities = [String] (count:3, repeatedValue: "Unknown")
     let quickUpdateFrequency :NSTimeInterval = 2
     let slowUpdateFrequency :NSTimeInterval = 10
+    var activity = CMMotionActivity()
     
-    func application(application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions:
-        [NSObject : AnyObject]?) -> Bool {
-            return true
+    //******************
+    //BACKGROUND TRACKING
+    
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        let settings = UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert, categories: nil)
+        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+        UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(0)
+        return true;
+        
+        
     }
+    
+    func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        println("Complete");
+        completionHandler(.NewData)
+        
+        getData();
+        
+    }
+    
+    func getData() -> Void{
+        var timestamp = NSDate()
+        self.activityManager.queryActivityStartingFromDate(NSDate.oneDayAgo(), toDate: NSDate(), toQueue: self.dataProcessingQueue, handler: activity){
+                if error != nil {
+                    println("there is an error")
+                } else {
+                    println(activity.count)
+                }
+                self.lastUpdate=NSDate()
+            }
+    }
+
     
     
     func applicationDidBecomeActive(application: UIApplication) {
@@ -68,21 +94,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     func printLastTenUpdates() {
-        /*
+        
         let fetchRequest = NSFetchRequest(entityName: "Activity")
         var requestError: NSError?
         let activities = managedObjectContext!.executeFetchRequest(fetchRequest,error: &requestError) as! [Activity!]
         if activities.count > 0 {
+            /*
             for activity in activities {
                 println("The confidence level is " + activity.confidence)
                 println("The activity type is " + activity.activityType)
                 println("The activity list is " + activity.activityList)
                 println(activity.timestamp)
                 println("\n")
+
             }
+*/
+            println("The number of activities stored is: " + (NSString(format: "%i",activities.count) as String) as String)
         }
-        println("-------------------------------------------------------------")
-        */
+                /*
         let appDelegate =
         UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext!
@@ -95,7 +124,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             error: &error) as? [NSManagedObject]
         println(fetchedResults)
         println("-------------------------------------------------")
+*/
+        let fetchRequest2 = NSFetchRequest(entityName: "Location")
+        var requestError2: NSError?
+        let locations = managedObjectContext!.executeFetchRequest(fetchRequest2, error: &requestError2) as! [Location!]
+        if locations.count > 0 {
+            println("The number of locations stored is: " + (NSString(format: "%i",locations.count) as String) as String)
+        }
+        println("-------------------------------------------------------------")
+        //let predicate = NSPredicate(format: self.lastUpdate >= "%@" , timestamp)
+        
     }
+
+        
+        
+        
     //distance && activity
     func updater(timer:NSTimer) {
         var shortTimer :Bool = Bool()
@@ -106,6 +149,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //location tracking
         locationManager.startUpdatingLocation()
+        let location = NSEntityDescription.insertNewObjectForEntityForName("Location", inManagedObjectContext: self.managedObjectContext!) as! Location
+        location.timestamp = NSDate()
+        location.longitude = NSString(format: "%.8f", locationManager.location.coordinate.longitude) as String
+        location.latitude = NSString (format: "%.8f", locationManager.location.coordinate.latitude) as String
+
         //println("Your current latitude is " , locationManager.location.coordinate.latitude)
         //println("Your current longitude is ", locationManager.location.coordinate.longitude)
         //println("The current time is ", locationManager.location.timestamp)
