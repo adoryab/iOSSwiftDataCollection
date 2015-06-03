@@ -11,7 +11,7 @@ import CoreMotion
 import CoreData
 import CoreLocation
 
-
+//Class extensions
 extension NSDate{
     class func now() -> NSDate{
         return NSDate()
@@ -24,26 +24,37 @@ extension NSDate{
     }
 }
 
+extension NSURLSessionTask{ func start(){
+    self.resume() }
+}
+
 //misc functions
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //used in predicating batch updates
+    let vc = ViewController()
     var lastUpdate = NSDate()
+    //update variables
     var counter = 0
-    
     lazy var locationFrequency: NSTimeInterval = 2
     var updateTimerInitializer: NSTimer?
     var updateTimer: NSTimer?
     var window: UIWindow?
     let activityManager: CMMotionActivityManager = CMMotionActivityManager()
     let dataProcessingQueue = NSOperationQueue()
+    let activityQueue = NSOperationQueue()
     lazy var pedometer = CMPedometer()
     var locationManager: CLLocationManager = CLLocationManager()
     var lastThreeActivities = [String] (count:3, repeatedValue: "Unknown")
     let quickUpdateFrequency :NSTimeInterval = 2
     let slowUpdateFrequency :NSTimeInterval = 10
-    var activity = CMMotionActivity()
+    var activityHandler :CMMotionActivityQueryHandler!
+    //uploading to the server
+    var locationLongitude = ""
+    var locationLatitude = ""
+    var activityType = ""
+    var activityConfidence = ""
     
     //******************
     //BACKGROUND TRACKING
@@ -64,21 +75,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         getData();
         
     }
-    
+    /*
     func getData() -> Void{
         var timestamp = NSDate()
-        self.activityManager.queryActivityStartingFromDate(NSDate.oneDayAgo(), toDate: NSDate(), toQueue: self.dataProcessingQueue, handler: activity){
-                if error != nil {
-                    println("there is an error")
-                } else {
-                    println(activity.count)
-                }
+        self.activityManager.queryActivityStartingFromDate(NSDate.oneDayAgo(), toDate: NSDate(), toQueue: self.activityQueue){
+            (activityHandler) in
+            for activity in activityHandler {
+                println(activity)
+            }
+                println("currently querying")
                 self.lastUpdate=NSDate()
             }
     }
+    [cm queryActivityStartingFromDate:lastWeek toDate:today toQueue:[NSOperationQueue mainQueue] withHandler:^(NSArray *activities, NSError *error){
+    for(int i=0;i<[activities count]-1;i++) {
 
-    
-    
+*/
+    func getData() -> Void{
+        var timestamp = NSDate()
+        println("Old lastupdate time is \(self.lastUpdate)")
+        self.activityManager.queryActivityStartingFromDate(NSDate.oneDayAgo(),
+            toDate: NSDate(), toQueue: activityQueue) {
+                (activities, error) in
+                if error != nil {
+                    println("There was an error retrieving the motion results: \(error)")
+                }
+                /*
+                let activitydb = NSEntityDescription.insertNewObjectForEntityForName("Activity", inManagedObjectContext: self.managedObjectContext!) as! Activity
+                for activity in activities {
+                    activitydb.timestamp = activity.timestamp
+                    if activity.confidence == CMMotionActivityConfidence.Low {
+                        activitydb.confidence = "low"
+                    } else if activity.confidence == CMMotionActivityConfidence.Medium {
+                        activitydb.confidence = "medium"
+                    } else if activity.confidence == CMMotionActivityConfidence.High {
+                        activitydb.confidence = "high"
+                    } else {
+                        activitydb.confidence = "There was a problem getting confidence"
+                    }
+                }
+*/
+                println(activities.count)
+
+        }
+        self.lastUpdate = NSDate()
+        println("New lastUpdate time is \(self.lastUpdate)")
+    }
+
+
     func applicationDidBecomeActive(application: UIApplication) {
         
         locationManager.requestAlwaysAuthorization()
@@ -144,19 +188,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var shortTimer :Bool = Bool()
         let drivingSpeed :NSNumber = 67      //15 mph
         var activityString = "| "
-        //let activityManager: CMMotionActivityManager = CMMotionActivityManager()
-        //let dataProcessingQueue = NSOperationQueue()
+        let activityManager: CMMotionActivityManager = CMMotionActivityManager()
+        let dataProcessingQueue = NSOperationQueue()
         
         //location tracking
         locationManager.startUpdatingLocation()
         let location = NSEntityDescription.insertNewObjectForEntityForName("Location", inManagedObjectContext: self.managedObjectContext!) as! Location
         location.timestamp = NSDate()
-        location.longitude = NSString(format: "%.8f", locationManager.location.coordinate.longitude) as String
-        location.latitude = NSString (format: "%.8f", locationManager.location.coordinate.latitude) as String
+        //location.longitude = NSString(format: "%.8f", locationManager.location.coordinate.longitude) as String
+        //location.latitude = NSString (format: "%.8f", locationManager.location.coordinate.latitude) as String
 
-        //println("Your current latitude is " , locationManager.location.coordinate.latitude)
-        //println("Your current longitude is ", locationManager.location.coordinate.longitude)
+        println("Your current latitude is " , locationManager.location.coordinate.latitude)
+        println("Your current longitude is ", locationManager.location.coordinate.longitude)
         //println("The current time is ", locationManager.location.timestamp)
+        self.locationLongitude = NSString(format: "%.8f", locationManager.location.coordinate.longitude) as String
+        self.locationLatitude = NSString(format: "%.8f", locationManager.location.coordinate.latitude) as String
+
         locationManager.stopUpdatingLocation()
         
         //activity tracking
@@ -227,11 +274,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             } else {
                                 shortTimer = false
                             }
+                            self.activityType = self.lastThreeActivities[0]
+                            self.activityConfidence = activity.confidence
+                            //ViewController().updateHelper()
                             //println(shortTimer)
                             self.counter += 1
                             if self.counter%5 == 0 {
                                 self.printLastTenUpdates()
                             }
+                            self.sendToServer(self.locationLongitude, latitudeString: self.locationLatitude, activityString: self.activityType, confidenceString: self.activityConfidence)
                             self.updateWithVaryingFrequency(shortTimer)
                             //println(self.locationFrequency)
                             //println("\n")
@@ -263,6 +314,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 repeats: false)
         }
         
+    }
+    
+    func sendToServer(longitudeString: String, latitudeString: String, activityString: String, confidenceString: String) {
+        let myUrl = NSURL(string: "http://epiwork.hcii.cs.cmu.edu/~afsaneh/script2.php");
+        let request = NSMutableURLRequest(URL:myUrl!);
+        request.HTTPMethod = "POST";
+        //modify strings for formatting
+        let stringBuffer = ","
+        let longitudeString2 = longitudeString + stringBuffer
+        let latitudeString2 = latitudeString + stringBuffer
+        let activityString2 = activityString + stringBuffer
+        let confidenceString2 = confidenceString + stringBuffer
+        // Compose a query string
+        let postString = "longitude=\(longitudeString2)&latitude=\(latitudeString2)&type=\(activityString2)&confidence=\(confidenceString2)&timestamp=\(NSDate())";
+        
+        request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding);
+        
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+            data, response, error in
+            
+            if error != nil
+            {
+                println("error=\(error)")
+                return
+            }
+            
+            // You can print out response object
+            println("response = \(response)")
+            
+            // Print out response body
+            let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)
+            println("responseString = \(responseString)")
+            
+            //Let's convert response sent from a server side script to a NSDictionary object:
+            
+            var err: NSError?
+            var myJSON = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error:&err) as? NSDictionary
+            
+            if let parseJSON = myJSON {
+                // Now we can access value of First Name by its key
+                var firstNameValue = parseJSON["Longitude"] as? String
+                println("firstNameValue: \(firstNameValue)")
+            }
+            
+        }
+        
+        task.resume()
+
     }
     
     func applicationWillResignActive(application: UIApplication) {
