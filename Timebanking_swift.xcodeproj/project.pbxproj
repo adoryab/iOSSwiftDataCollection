@@ -1,0 +1,475 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E04E4ACA1B14F8F4009A3040 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04E4AC91B14F8F4009A3040 /* Location.swift */; };
+		E0D9CD351B0FA17E00D7CD5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D9CD341B0FA17E00D7CD5F /* AppDelegate.swift */; };
+		E0D9CD381B0FA17E00D7CD5F /* Timebanking_swift.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E0D9CD361B0FA17E00D7CD5F /* Timebanking_swift.xcdatamodeld */; };
+		E0D9CD3A1B0FA17E00D7CD5F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D9CD391B0FA17E00D7CD5F /* ViewController.swift */; };
+		E0D9CD3D1B0FA17E00D7CD5F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E0D9CD3B1B0FA17E00D7CD5F /* Main.storyboard */; };
+		E0D9CD3F1B0FA17E00D7CD5F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0D9CD3E1B0FA17E00D7CD5F /* Images.xcassets */; };
+		E0D9CD421B0FA17E00D7CD5F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0D9CD401B0FA17E00D7CD5F /* LaunchScreen.xib */; };
+		E0D9CD4E1B0FA17E00D7CD5F /* Timebanking_swiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D9CD4D1B0FA17E00D7CD5F /* Timebanking_swiftTests.swift */; };
+		E0D9CD581B0FA18B00D7CD5F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D9CD571B0FA18B00D7CD5F /* CoreLocation.framework */; };
+		E0D9CD5A1B0FA19100D7CD5F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D9CD591B0FA19100D7CD5F /* CoreMotion.framework */; };
+		E0D9CD5C1B0FA19600D7CD5F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D9CD5B1B0FA19600D7CD5F /* CoreData.framework */; };
+		E0D9CDC61B0FB44D00D7CD5F /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D9CDC51B0FB44D00D7CD5F /* Activity.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E0D9CD481B0FA17E00D7CD5F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E0D9CD271B0FA17E00D7CD5F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E0D9CD2E1B0FA17E00D7CD5F;
+			remoteInfo = Timebanking_swift;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E04E4AC91B14F8F4009A3040 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		E0D9CD2F1B0FA17E00D7CD5F /* Timebanking_swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Timebanking_swift.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0D9CD331B0FA17E00D7CD5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E0D9CD341B0FA17E00D7CD5F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E0D9CD371B0FA17E00D7CD5F /* Timebanking_swift.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Timebanking_swift.xcdatamodel; sourceTree = "<group>"; };
+		E0D9CD391B0FA17E00D7CD5F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E0D9CD3C1B0FA17E00D7CD5F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E0D9CD3E1B0FA17E00D7CD5F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		E0D9CD411B0FA17E00D7CD5F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		E0D9CD471B0FA17E00D7CD5F /* Timebanking_swiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Timebanking_swiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0D9CD4C1B0FA17E00D7CD5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E0D9CD4D1B0FA17E00D7CD5F /* Timebanking_swiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timebanking_swiftTests.swift; sourceTree = "<group>"; };
+		E0D9CD571B0FA18B00D7CD5F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		E0D9CD591B0FA19100D7CD5F /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		E0D9CD5B1B0FA19600D7CD5F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		E0D9CDC51B0FB44D00D7CD5F /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E0D9CD2C1B0FA17E00D7CD5F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0D9CD5C1B0FA19600D7CD5F /* CoreData.framework in Frameworks */,
+				E0D9CD5A1B0FA19100D7CD5F /* CoreMotion.framework in Frameworks */,
+				E0D9CD581B0FA18B00D7CD5F /* CoreLocation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0D9CD441B0FA17E00D7CD5F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E0D9CD261B0FA17E00D7CD5F = {
+			isa = PBXGroup;
+			children = (
+				E0D9CD5B1B0FA19600D7CD5F /* CoreData.framework */,
+				E0D9CD591B0FA19100D7CD5F /* CoreMotion.framework */,
+				E0D9CD571B0FA18B00D7CD5F /* CoreLocation.framework */,
+				E0D9CD311B0FA17E00D7CD5F /* Timebanking_swift */,
+				E0D9CD4A1B0FA17E00D7CD5F /* Timebanking_swiftTests */,
+				E0D9CD301B0FA17E00D7CD5F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E0D9CD301B0FA17E00D7CD5F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E0D9CD2F1B0FA17E00D7CD5F /* Timebanking_swift.app */,
+				E0D9CD471B0FA17E00D7CD5F /* Timebanking_swiftTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E0D9CD311B0FA17E00D7CD5F /* Timebanking_swift */ = {
+			isa = PBXGroup;
+			children = (
+				E04E4AC91B14F8F4009A3040 /* Location.swift */,
+				E0D9CDC51B0FB44D00D7CD5F /* Activity.swift */,
+				E0D9CD341B0FA17E00D7CD5F /* AppDelegate.swift */,
+				E0D9CD391B0FA17E00D7CD5F /* ViewController.swift */,
+				E0D9CD3B1B0FA17E00D7CD5F /* Main.storyboard */,
+				E0D9CD3E1B0FA17E00D7CD5F /* Images.xcassets */,
+				E0D9CD401B0FA17E00D7CD5F /* LaunchScreen.xib */,
+				E0D9CD361B0FA17E00D7CD5F /* Timebanking_swift.xcdatamodeld */,
+				E0D9CD321B0FA17E00D7CD5F /* Supporting Files */,
+			);
+			path = Timebanking_swift;
+			sourceTree = "<group>";
+		};
+		E0D9CD321B0FA17E00D7CD5F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E0D9CD331B0FA17E00D7CD5F /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E0D9CD4A1B0FA17E00D7CD5F /* Timebanking_swiftTests */ = {
+			isa = PBXGroup;
+			children = (
+				E0D9CD4D1B0FA17E00D7CD5F /* Timebanking_swiftTests.swift */,
+				E0D9CD4B1B0FA17E00D7CD5F /* Supporting Files */,
+			);
+			path = Timebanking_swiftTests;
+			sourceTree = "<group>";
+		};
+		E0D9CD4B1B0FA17E00D7CD5F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E0D9CD4C1B0FA17E00D7CD5F /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E0D9CD2E1B0FA17E00D7CD5F /* Timebanking_swift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E0D9CD511B0FA17E00D7CD5F /* Build configuration list for PBXNativeTarget "Timebanking_swift" */;
+			buildPhases = (
+				E0D9CD2B1B0FA17E00D7CD5F /* Sources */,
+				E0D9CD2C1B0FA17E00D7CD5F /* Frameworks */,
+				E0D9CD2D1B0FA17E00D7CD5F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Timebanking_swift;
+			productName = Timebanking_swift;
+			productReference = E0D9CD2F1B0FA17E00D7CD5F /* Timebanking_swift.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E0D9CD461B0FA17E00D7CD5F /* Timebanking_swiftTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E0D9CD541B0FA17E00D7CD5F /* Build configuration list for PBXNativeTarget "Timebanking_swiftTests" */;
+			buildPhases = (
+				E0D9CD431B0FA17E00D7CD5F /* Sources */,
+				E0D9CD441B0FA17E00D7CD5F /* Frameworks */,
+				E0D9CD451B0FA17E00D7CD5F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E0D9CD491B0FA17E00D7CD5F /* PBXTargetDependency */,
+			);
+			name = Timebanking_swiftTests;
+			productName = Timebanking_swiftTests;
+			productReference = E0D9CD471B0FA17E00D7CD5F /* Timebanking_swiftTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E0D9CD271B0FA17E00D7CD5F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = "Patrick Chang";
+				TargetAttributes = {
+					E0D9CD2E1B0FA17E00D7CD5F = {
+						CreatedOnToolsVersion = 6.3;
+						DevelopmentTeam = WX6BPYNL6X;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
+					E0D9CD461B0FA17E00D7CD5F = {
+						CreatedOnToolsVersion = 6.3;
+						TestTargetID = E0D9CD2E1B0FA17E00D7CD5F;
+					};
+				};
+			};
+			buildConfigurationList = E0D9CD2A1B0FA17E00D7CD5F /* Build configuration list for PBXProject "Timebanking_swift" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E0D9CD261B0FA17E00D7CD5F;
+			productRefGroup = E0D9CD301B0FA17E00D7CD5F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E0D9CD2E1B0FA17E00D7CD5F /* Timebanking_swift */,
+				E0D9CD461B0FA17E00D7CD5F /* Timebanking_swiftTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E0D9CD2D1B0FA17E00D7CD5F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0D9CD3D1B0FA17E00D7CD5F /* Main.storyboard in Resources */,
+				E0D9CD421B0FA17E00D7CD5F /* LaunchScreen.xib in Resources */,
+				E0D9CD3F1B0FA17E00D7CD5F /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0D9CD451B0FA17E00D7CD5F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E0D9CD2B1B0FA17E00D7CD5F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0D9CD3A1B0FA17E00D7CD5F /* ViewController.swift in Sources */,
+				E0D9CD351B0FA17E00D7CD5F /* AppDelegate.swift in Sources */,
+				E04E4ACA1B14F8F4009A3040 /* Location.swift in Sources */,
+				E0D9CDC61B0FB44D00D7CD5F /* Activity.swift in Sources */,
+				E0D9CD381B0FA17E00D7CD5F /* Timebanking_swift.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0D9CD431B0FA17E00D7CD5F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0D9CD4E1B0FA17E00D7CD5F /* Timebanking_swiftTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E0D9CD491B0FA17E00D7CD5F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E0D9CD2E1B0FA17E00D7CD5F /* Timebanking_swift */;
+			targetProxy = E0D9CD481B0FA17E00D7CD5F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E0D9CD3B1B0FA17E00D7CD5F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E0D9CD3C1B0FA17E00D7CD5F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		E0D9CD401B0FA17E00D7CD5F /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E0D9CD411B0FA17E00D7CD5F /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E0D9CD4F1B0FA17E00D7CD5F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E0D9CD501B0FA17E00D7CD5F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E0D9CD521B0FA17E00D7CD5F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = Timebanking_swift/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		E0D9CD531B0FA17E00D7CD5F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = Timebanking_swift/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
+		E0D9CD551B0FA17E00D7CD5F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = Timebanking_swiftTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Timebanking_swift.app/Timebanking_swift";
+			};
+			name = Debug;
+		};
+		E0D9CD561B0FA17E00D7CD5F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = Timebanking_swiftTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Timebanking_swift.app/Timebanking_swift";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E0D9CD2A1B0FA17E00D7CD5F /* Build configuration list for PBXProject "Timebanking_swift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E0D9CD4F1B0FA17E00D7CD5F /* Debug */,
+				E0D9CD501B0FA17E00D7CD5F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E0D9CD511B0FA17E00D7CD5F /* Build configuration list for PBXNativeTarget "Timebanking_swift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E0D9CD521B0FA17E00D7CD5F /* Debug */,
+				E0D9CD531B0FA17E00D7CD5F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E0D9CD541B0FA17E00D7CD5F /* Build configuration list for PBXNativeTarget "Timebanking_swiftTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E0D9CD551B0FA17E00D7CD5F /* Debug */,
+				E0D9CD561B0FA17E00D7CD5F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		E0D9CD361B0FA17E00D7CD5F /* Timebanking_swift.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E0D9CD371B0FA17E00D7CD5F /* Timebanking_swift.xcdatamodel */,
+			);
+			currentVersion = E0D9CD371B0FA17E00D7CD5F /* Timebanking_swift.xcdatamodel */;
+			path = Timebanking_swift.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = E0D9CD271B0FA17E00D7CD5F /* Project object */;
+}
