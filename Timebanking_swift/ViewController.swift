@@ -28,10 +28,12 @@ public class ViewController: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        /*
         println(latitude.text!)
         println(longitude.text!)
         println(activity.text!)
         println(confidence.text!)
+*/
         updateUI(locationLatitude, longitudeString: locationLongitude, activityString: activityType, confidenceString: activityConfidence)
         //println(longitude.text)
 

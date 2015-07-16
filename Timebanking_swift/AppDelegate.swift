@@ -28,6 +28,7 @@ extension NSURLSessionTask{ func start(){
     self.resume() }
 }
 
+
 //misc functions
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -47,24 +48,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var pedometer = CMPedometer()
     var locationManager: CLLocationManager = CLLocationManager()
     var lastThreeActivities = [String] (count:3, repeatedValue: "Unknown")
-    let quickUpdateFrequency :NSTimeInterval = 2
-    let slowUpdateFrequency :NSTimeInterval = 10
+    let quickUpdateFrequency :NSTimeInterval = 60
+    let slowUpdateFrequency :NSTimeInterval = 180
     var activityHandler :CMMotionActivityQueryHandler!
     //uploading to the server
     var locationLongitude = ""
     var locationLatitude = ""
     var activityType = ""
     var activityConfidence = ""
+    //background stuff
+    var isExecutingInBackground = false
+    var backgroundAcc = kCLLocationAccuracyBestForNavigation
+    var foregroundAcc = kCLLocationAccuracyBest
+    //var oldLocation = CLLocationCoordinate2D()
+    //var newLocation = CLLocationCoordinate2D()
+    var seenError = false
     
     //******************
     //BACKGROUND TRACKING
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        locationManager.requestAlwaysAuthorization()
         let settings = UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert, categories: nil)
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
         UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(0)
         return true;
-        
         
     }
     
@@ -75,25 +83,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         getData();
         
     }
-    /*
+   
     func getData() -> Void{
         var timestamp = NSDate()
-        self.activityManager.queryActivityStartingFromDate(NSDate.oneDayAgo(), toDate: NSDate(), toQueue: self.activityQueue){
-            (activityHandler) in
-            for activity in activityHandler {
-                println(activity)
-            }
-                println("currently querying")
-                self.lastUpdate=NSDate()
-            }
-    }
-    [cm queryActivityStartingFromDate:lastWeek toDate:today toQueue:[NSOperationQueue mainQueue] withHandler:^(NSArray *activities, NSError *error){
-    for(int i=0;i<[activities count]-1;i++) {
-
-*/
-    func getData() -> Void{
-        var timestamp = NSDate()
-        println("Old lastupdate time is \(self.lastUpdate)")
+        //println("Old lastupdate time is \(self.lastUpdate)")
         self.activityManager.queryActivityStartingFromDate(NSDate.oneDayAgo(),
             toDate: NSDate(), toQueue: activityQueue) {
                 (activities, error) in
@@ -119,16 +112,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         }
         self.lastUpdate = NSDate()
-        println("New lastUpdate time is \(self.lastUpdate)")
+        //println("New lastUpdate time is \(self.lastUpdate)")
+    }
+/*
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        println(manager.location.description)
+    }
+  */
+    
+    // Location Manager helper stuff
+    func backgroundLocation() {
+        println("backgroundLocation() started")
+        self.seenError = false
+        locationManager = CLLocationManager()
+        //locationManager.delegate = self
+        //locationManager.locationServicesEnabled
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startUpdatingLocation()
     }
 
-
+    
+    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+        locationManager.stopUpdatingLocation()
+        if ((error) != nil) {
+            if (self.seenError == false) {
+                self.seenError = true
+                print(error)
+            }
+        }
+    }
+    
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        //if (locationFixAchieved == false) {
+        var locationArray = locations as NSArray
+        var locationObj = locationArray.lastObject as! CLLocation
+        var coord = locationObj.coordinate
+        println("printing in the background")
+        println(coord.latitude)
+        println(coord.longitude)
+        //}
+    }
+    
+    
+    //active application
     func applicationDidBecomeActive(application: UIApplication) {
         
-        locationManager.requestAlwaysAuthorization()
-        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         
-        //distance updater
+        locationManager.desiredAccuracy = foregroundAcc
+        
+        // updater
         updateTimerInitializer = NSTimer.scheduledTimerWithTimeInterval(5,
             target: self,
             selector: "updater:",
@@ -195,16 +228,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         locationManager.startUpdatingLocation()
         let location = NSEntityDescription.insertNewObjectForEntityForName("Location", inManagedObjectContext: self.managedObjectContext!) as! Location
         location.timestamp = NSDate()
-        //location.longitude = NSString(format: "%.8f", locationManager.location.coordinate.longitude) as String
-        //location.latitude = NSString (format: "%.8f", locationManager.location.coordinate.latitude) as String
+        location.longitude = NSString(format: "%.8f", locationManager.location.coordinate.longitude) as String
+        location.latitude = NSString (format: "%.8f", locationManager.location.coordinate.latitude) as String
 
-        println("Your current latitude is " , locationManager.location.coordinate.latitude)
-        println("Your current longitude is ", locationManager.location.coordinate.longitude)
+        //println("Your current latitude is " , locationManager.location.coordinate.latitude)
+        //println("Your current longitude is ", locationManager.location.coordinate.longitude)
         //println("The current time is ", locationManager.location.timestamp)
         self.locationLongitude = NSString(format: "%.8f", locationManager.location.coordinate.longitude) as String
         self.locationLatitude = NSString(format: "%.8f", locationManager.location.coordinate.latitude) as String
-
-        locationManager.stopUpdatingLocation()
+        if isExecutingInBackground == false{
+            locationManager.stopUpdatingLocation()
+        }
         
         //activity tracking
         if CMPedometer.isDistanceAvailable(){
@@ -322,12 +356,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         request.HTTPMethod = "POST";
         //modify strings for formatting
         let stringBuffer = ","
+        let deviceString = UIDevice.currentDevice().identifierForVendor.UUIDString + stringBuffer
         let longitudeString2 = longitudeString + stringBuffer
         let latitudeString2 = latitudeString + stringBuffer
         let activityString2 = activityString + stringBuffer
         let confidenceString2 = confidenceString + stringBuffer
         // Compose a query string
-        let postString = "longitude=\(longitudeString2)&latitude=\(latitudeString2)&type=\(activityString2)&confidence=\(confidenceString2)&timestamp=\(NSDate())";
+        let postString = "deviceID=\(deviceString)&longitude=\(longitudeString2)&latitude=\(latitudeString2)&type=\(activityString2)&confidence=\(confidenceString2)&timestamp=\(NSDate())";
         
         request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding);
         
@@ -341,22 +376,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
             // You can print out response object
-            println("response = \(response)")
+            //println("response = \(response)")
             
             // Print out response body
-            let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)
-            println("responseString = \(responseString)")
+            //let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)
+            //println("responseString = \(responseString)")
             
             //Let's convert response sent from a server side script to a NSDictionary object:
             
             var err: NSError?
             var myJSON = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error:&err) as? NSDictionary
             
-            if let parseJSON = myJSON {
+            //if let parseJSON = myJSON {
                 // Now we can access value of First Name by its key
-                var firstNameValue = parseJSON["Longitude"] as? String
-                println("firstNameValue: \(firstNameValue)")
-            }
+                //var firstNameValue = parseJSON["Longitude"] as? String
+                //println("firstNameValue: \(firstNameValue)")
+            //}
             
         }
         
@@ -370,21 +405,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     
-    
-    /*
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-    // Override point for customization after application launch.
-    return true
-    }
-    */
-    
     func applicationDidEnterBackground(application: UIApplication) {
+        
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        println("entered background")
+        isExecutingInBackground = true
+        locationManager.desiredAccuracy = backgroundAcc
+        //locationManager.distanceFilter = 5
+        self.backgroundLocation()
+        //oldLocation = locationManager.location.coordinate
+        //println("background information")
+        //println(locationManager.location.coordinate.longitude)
+        //println(locationManager.location.coordinate.latitude)
+        //println("The time is currently \(NSDate())")
+        
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
+        
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        isExecutingInBackground = false
+        locationManager.desiredAccuracy = foregroundAcc
+        locationManager.stopUpdatingLocation()
     }
     
     

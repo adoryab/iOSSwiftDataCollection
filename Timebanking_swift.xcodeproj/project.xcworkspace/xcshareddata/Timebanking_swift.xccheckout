@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>2CDB4BE0-5ABF-44D1-AE57-63E94501F346</string>
 	<key>IDESourceControlProjectName</key>
-	<string>Timebanking_swift</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>A14C5CA3638826CD239F1F57D9221A1781C7DB8B</key>
 		<string>https://github.com/pgchang/Timebanking_swift</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Timebanking_swift.xcodeproj</string>
+	<string>Timebanking_swift.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>A14C5CA3638826CD239F1F57D9221A1781C7DB8B</key>
